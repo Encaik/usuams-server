@@ -5,7 +5,7 @@ const Controller = require('egg').Controller;
 class LoginController extends Controller {
   async index() {
     const { ctx } = this;
-    ctx.body = 'hi, egg';
+    ctx.body = this.app.mysql.select('user_table');
   }
 }
 
