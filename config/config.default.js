@@ -12,23 +12,6 @@ module.exports = appInfo => {
    **/
   const config = exports = {};
 
-  config.mysql = {
-    client: {
-      // host
-      host: 'localhost',
-      // port
-      port: '3306',
-      // username
-      user: 'root',
-      // password
-      password: '123456',
-      // database
-      database: 'usuams',
-    },
-    app: true,
-    agent: false,
-  };
-
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1578792997450_5942';
 
@@ -38,6 +21,27 @@ module.exports = appInfo => {
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
+    mysql: {
+      client: {
+        // host
+        host: 'localhost',
+        // port
+        port: '3306',
+        // username
+        user: 'root',
+        // password
+        password: '123456',
+        // database
+        database: 'usuams',
+      },
+      app: true,
+      agent: false,
+    },
+    security: {
+      csrf: {
+        enable: false,
+      },
+    },
   };
 
   return {
