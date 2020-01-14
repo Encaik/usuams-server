@@ -8,4 +8,5 @@ module.exports = app => {
   router.get('/login', controller.login.index);
   router.resources('home', '/', controller.home);
   router.resources('user', '/', controller.user);
+  router.resources('affair', '/', controller.affair);
 };
