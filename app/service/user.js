@@ -12,7 +12,12 @@ class UserService extends Service {
 
   // 按id查询数据
   async show(params) {
-    const result = await this.app.mysql.select('user_table', { id: params.id });
+    const result = await this.app.mysql.select(
+      'user_table',
+      {
+        id: params.id,
+      }
+    );
     return result;
   }
 

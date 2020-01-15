@@ -14,11 +14,10 @@ class UserService extends Service {
         },
       }
     );
-    console.log(body.password, result);
-    if (body.password === result[0].password) {
-      return '登陆成功';
+    if (body.password !== result[0].password) {
+      return '用户名或密码不正确';
     }
-    return '登陆失败';
+    return '登陆成功';
   }
 }
 
