@@ -5,19 +5,27 @@ const Service = require('egg').Service;
 class UserService extends Service {
 
   async index(body) {
-    const result = await this.app.mysql.select(
-      'user_table',
-      {
-        columns: 'password',
-        where: {
-          username: body.username,
-        },
-      }
-    );
-    if (body.password !== result[0].password) {
-      return '用户名或密码不正确';
+    if (!body.username) {
+      return { code: 1001, msg: '请输入用户名' };
     }
-    return '登陆成功';
+    if (!body.password) {
+      return { code: 1002, msg: '请输入密码' };
+    }
+    const sql = `
+    SELECT user_table.password,user_type.id
+    FROM user_table
+    JOIN user_type
+    ON user_table.user_type = user_type.id
+    WHERE username = ${body.username}`;
+    const result = await this.app.mysql.query(sql);
+    if (!result || body.password !== result[0].password) {
+      return { code: 1000, msg: '用户名或密码不正确' };
+    }
+    return { code: 0, msg: '登陆成功', type: result[0].id };
+  }
+
+  async exit() {
+    return { code: 0, msg: '退出成功' };
   }
 }
 

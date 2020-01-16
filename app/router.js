@@ -9,6 +9,7 @@ module.exports = app => {
   router.post('/login', controller.login.index);
   // 修改用户名及密码
   // 退出功能
+  router.post('/exit', controller.login.exit);
   // 首页 crud api
   router.resources('home', '/home', controller.home);
   // 用户 crud api
