@@ -45,23 +45,49 @@ class UserService extends Service {
   }
 
   async update(params, body) {
+    const data = {};
+    if (body.name) {
+      data.name = body.name;
+    }
+    if (body.number) {
+      data.number = body.number;
+    }
+    if (body.username) {
+      data.username = body.username;
+    }
+    if (body.password) {
+      data.password = body.password;
+    }
+    if (body.sex) {
+      data.sex = body.sex;
+    }
+    if (body.collage) {
+      data.collage = body.collage;
+    }
+    if (body.major) {
+      data.major = body.major;
+    }
+    if (body.grade) {
+      data.grade = body.grade;
+    }
+    if (body.class) {
+      data.class = body.class;
+    }
+    if (body.user_type) {
+      data.user_type = body.user_type;
+    }
+    if (body.department) {
+      data.department = body.department;
+    }
+    if (body.join_date) {
+      data.join_date = body.join_date;
+    }
+    if (body.exit_date) {
+      data.exit_date = body.exit_date;
+    }
     const result = await this.app.mysql.update(
       'user_table',
-      {
-        name: body.name,
-        number: body.number,
-        username: body.username,
-        password: body.password,
-        sex: body.sex,
-        collage: body.collage,
-        major: body.major,
-        grade: body.grade,
-        class: body.class,
-        user_type: body.user_type,
-        department: body.department,
-        join_date: body.join_date,
-        exit_date: null,
-      },
+      data,
       {
         where: {
           id: params.id,
