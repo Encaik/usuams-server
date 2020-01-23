@@ -2,7 +2,7 @@
 
 const Service = require('egg').Service;
 
-class UserService extends Service {
+class GuestService extends Service {
 
   // 查询全部数据
   async index(query) {
@@ -12,11 +12,11 @@ class UserService extends Service {
     if (!query.current) {
       return { code: 2002, msg: '分页数据页数缺失' };
     }
-    const result = await this.app.mysql.select('user_table', {
+    const result = await this.app.mysql.select('guest_table', {
       limit: Number(query.pageSize), // 返回数据量
       offset: (query.current - 1) * query.pageSize, // 数据偏移量
     });
-    const totalCount = await this.app.mysql.count('user_table');
+    const totalCount = await this.app.mysql.count('guest_table');
     return {
       code: 0,
       msg: 'success',
@@ -29,7 +29,7 @@ class UserService extends Service {
   // 按id查询数据
   async show(params) {
     const result = await this.app.mysql.select(
-      'user_table',
+      'guest_table',
       {
         id: params.id,
       }
@@ -40,7 +40,7 @@ class UserService extends Service {
   // 新增数据
   async create(body) {
     const result = await this.app.mysql.insert(
-      'user_table',
+      'guest_table',
       {
         name: body.name,
         number: body.number,
@@ -102,7 +102,7 @@ class UserService extends Service {
       data.exit_date = body.exit_date;
     }
     const result = await this.app.mysql.update(
-      'user_table',
+      'guest_table',
       data,
       {
         where: {
@@ -116,7 +116,7 @@ class UserService extends Service {
   // 按id删除数据
   async destroy(params) {
     const result = await this.app.mysql.delete(
-      'user_table',
+      'guest_table',
       {
         id: params.id,
       }
@@ -126,4 +126,4 @@ class UserService extends Service {
 
 }
 
-module.exports = UserService;
+module.exports = GuestService;

@@ -14,6 +14,8 @@ module.exports = app => {
   router.resources('home', '/home', controller.home);
   // 用户 crud api
   router.resources('user', '/user', controller.user);
+  // 游客 crud api
+  router.resources('guest', '/guest', controller.guest);
   // 事务 crud api
   router.resources('affair', '/affair', controller.affair);
   // 例会记录 crud api
