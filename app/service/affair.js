@@ -5,9 +5,25 @@ const Service = require('egg').Service;
 class AffairService extends Service {
 
   // 查询全部数据
-  async index() {
-    const result = await this.app.mysql.select('affair_table');
-    return result;
+  async index(query) {
+    if (!query.pageSize) {
+      return { code: 2001, msg: '分页数据条数缺失' };
+    }
+    if (!query.current) {
+      return { code: 2002, msg: '分页数据页数缺失' };
+    }
+    const result = await this.app.mysql.select('affair_table', {
+      limit: Number(query.pageSize), // 返回数据量
+      offset: (query.current - 1) * query.pageSize, // 数据偏移量
+    });
+    const totalCount = await this.app.mysql.count('affair_table');
+    return {
+      code: 0,
+      msg: 'success',
+      data: result,
+      current: Number(query.current),
+      total: totalCount,
+    };
   }
 
   // 按id查询数据

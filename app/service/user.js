@@ -9,20 +9,19 @@ class UserService extends Service {
     if (!query.pageSize) {
       return { code: 2001, msg: '分页数据条数缺失' };
     }
-    if (!query.pageNumber) {
+    if (!query.current) {
       return { code: 2002, msg: '分页数据页数缺失' };
     }
     const result = await this.app.mysql.select('user_table', {
       limit: Number(query.pageSize), // 返回数据量
-      offset: (query.pageNumber - 1) * query.pageSize, // 数据偏移量
+      offset: (query.current - 1) * query.pageSize, // 数据偏移量
     });
     const totalCount = await this.app.mysql.count('user_table');
     return {
       code: 0,
       msg: 'success',
       data: result,
-      currentPage: Number(query.pageNumber),
-      pages: Math.ceil(result.length / query.pageSize),
+      current: Number(query.current),
       total: totalCount,
     };
   }
