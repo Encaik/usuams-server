@@ -41,6 +41,12 @@ module.exports = appInfo => {
       csrf: {
         enable: false,
       },
+      domainWhiteList: [ '*' ],
+    },
+    cors: {
+      origin: 'http://localhost:8080',
+      credentials: true,
+      allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
     },
   };
 

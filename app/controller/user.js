@@ -17,13 +17,9 @@ class UserController extends Controller {
 
   // 查询全部数据
   async index() {
-    const result = await this.ctx.service.user.index();
+    const result = await this.ctx.service.user.index(this.ctx.query);
     console.log('index', result);
-    this.ctx.body = {
-      code: 0,
-      msg: 'success',
-      data: result,
-    };
+    this.ctx.body = result;
   }
 
   // 按id查询数据
