@@ -13,6 +13,7 @@ class UserService extends Service {
       return { code: 2002, msg: '分页数据页数缺失' };
     }
     const result = await this.app.mysql.select('user_table', {
+      where: { user_type: [ '1', '2', '3', '4', '5' ] },
       limit: Number(query.pageSize), // 返回数据量
       offset: (query.current - 1) * query.pageSize, // 数据偏移量
     });
