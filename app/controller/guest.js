@@ -17,6 +17,7 @@ class GuestController extends Controller {
 
   // 查询全部数据
   async index() {
+    console.log(this.ctx.state.user);
     const result = await this.ctx.service.guest.index(this.ctx.query);
     console.log('index', result);
     this.ctx.body = result;

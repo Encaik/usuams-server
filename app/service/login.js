@@ -18,11 +18,24 @@ class UserService extends Service {
     ON user_table.user_type = user_type.id
     WHERE username = "${body.username}"`;
     const result = await this.app.mysql.query(sql);
+
+    // token签名 有效期为1小时
     console.log(result);
     if (!result || body.password !== result[0].password) {
       return { code: 1000, msg: '用户名或密码不正确' };
     }
-    return { code: 0, msg: '登陆成功', uid: result[0].uid, type: result[0].id };
+    const token = await this.app.jwt.sign(
+      { username: this.ctx.request.body.username },
+      this.app.config.jwt.secret,
+      { expiresIn: '1h' }
+    );
+    return {
+      code: 0,
+      msg: '登陆成功',
+      uid: result[0].uid,
+      type: result[0].id,
+      Authorization: token,
+    };
   }
 
   async exit() {

@@ -40,13 +40,17 @@ module.exports = appInfo => {
     security: {
       csrf: {
         enable: false,
+        ignoreJSON: true,
       },
-      domainWhiteList: [ '*' ],
+      domainWhiteList: [ 'http://localhost:8080' ],
     },
     cors: {
       origin: 'http://localhost:8080',
       credentials: true,
       allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+    },
+    jwt: {
+      secret: 'Encaik', // 自定义 token 的加密条件字符串
     },
   };
 

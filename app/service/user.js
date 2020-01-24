@@ -12,11 +12,15 @@ class UserService extends Service {
     if (!query.current) {
       return { code: 2002, msg: '分页数据页数缺失' };
     }
+    if (!query.type || query.type.length === 0) {
+      query.type = [ '1', '2', '3', '4', '5' ];
+    }
     const result = await this.app.mysql.select('user_table', {
+      where: { user_type: query.type },
       limit: Number(query.pageSize), // 返回数据量
       offset: (query.current - 1) * query.pageSize, // 数据偏移量
     });
-    const totalCount = await this.app.mysql.count('user_table');
+    const totalCount = await this.app.mysql.count('user_table', { user_type: query.type });
     return {
       code: 0,
       msg: 'success',

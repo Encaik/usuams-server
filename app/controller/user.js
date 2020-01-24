@@ -17,7 +17,7 @@ class UserController extends Controller {
 
   // 查询全部数据
   async index() {
-    const result = await this.ctx.service.user.index(this.ctx.query);
+    const result = await this.ctx.service.user.index(this.ctx.queries);
     console.log('index', result);
     this.ctx.body = result;
   }
