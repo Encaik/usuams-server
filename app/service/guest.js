@@ -13,10 +13,11 @@ class GuestService extends Service {
       return { code: 2002, msg: '分页数据页数缺失' };
     }
     const result = await this.app.mysql.select('guest_table', {
+      where: { user_type: '6' },
       limit: Number(query.pageSize), // 返回数据量
       offset: (query.current - 1) * query.pageSize, // 数据偏移量
     });
-    const totalCount = await this.app.mysql.count('guest_table');
+    const totalCount = await this.app.mysql.count('guest_table', { user_type: '6' });
     return {
       code: 0,
       msg: 'success',

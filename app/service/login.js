@@ -25,7 +25,8 @@ class UserService extends Service {
       return { code: 1000, msg: '用户名或密码不正确' };
     }
     const token = await this.app.jwt.sign(
-      { username: this.ctx.request.body.username },
+      { username: this.ctx.request.body.username,
+        type: result[0].type },
       this.app.config.jwt.secret,
       { expiresIn: '1h' }
     );
