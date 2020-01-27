@@ -45,20 +45,23 @@ class GuestService extends Service {
       {
         name: body.name,
         number: body.number,
-        username: body.username,
-        password: body.password,
         sex: body.sex,
         collage: body.collage,
         major: body.major,
         grade: body.grade,
         class: body.class,
         user_type: body.user_type,
-        department: body.department,
-        join_date: body.join_date,
-        exit_date: null,
+        create_date: Math.round(new Date() / 1000),
+        depa1: body.depa1,
+        depa2: body.depa2,
+        depa3: body.depa3,
       }
     );
-    return result;
+    return {
+      code: 0,
+      msg: 'success',
+      data: result,
+    };
   }
 
   async update(params, body) {
@@ -95,12 +98,6 @@ class GuestService extends Service {
     }
     if (body.department) {
       data.department = body.department;
-    }
-    if (body.join_date) {
-      data.join_date = body.join_date;
-    }
-    if (body.exit_date) {
-      data.exit_date = body.exit_date;
     }
     const result = await this.app.mysql.update(
       'guest_table',

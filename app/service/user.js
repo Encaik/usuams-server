@@ -48,8 +48,8 @@ class UserService extends Service {
       {
         name: body.name,
         number: body.number,
-        username: body.username,
-        password: body.password,
+        username: body.number,
+        password: 123456,
         sex: body.sex,
         collage: body.collage,
         major: body.major,
@@ -57,11 +57,15 @@ class UserService extends Service {
         class: body.class,
         user_type: body.user_type,
         department: body.department,
-        join_date: body.join_date,
+        join_date: Math.round(new Date() / 1000),
         exit_date: null,
       }
     );
-    return result;
+    return {
+      code: 0,
+      msg: 'success',
+      data: result,
+    };
   }
 
   async update(params, body) {
@@ -125,7 +129,11 @@ class UserService extends Service {
         id: params.id,
       }
     );
-    return result;
+    return {
+      code: 0,
+      msg: 'success',
+      data: result,
+    };
   }
 
 }
