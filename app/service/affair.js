@@ -12,11 +12,15 @@ class AffairService extends Service {
     if (!query.current) {
       return { code: 2002, msg: '分页数据页数缺失' };
     }
+    if (!query.state || query.state.length === 0) {
+      query.state = [ '待审核', '已创建', '已开始', '已结束' ];
+    }
     const result = await this.app.mysql.select('affair_table', {
+      where: { state: query.state },
       limit: Number(query.pageSize), // 返回数据量
       offset: (query.current - 1) * query.pageSize, // 数据偏移量
     });
-    const totalCount = await this.app.mysql.count('affair_table');
+    const totalCount = await this.app.mysql.count('affair_table', { state: query.state });
     return {
       code: 0,
       msg: 'success',
