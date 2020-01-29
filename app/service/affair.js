@@ -30,7 +30,11 @@ class AffairService extends Service {
       INNER JOIN user_table b ON b.id = a.reviewer
       INNER JOIN user_table c ON c.id = a.leader
       WHERE FIND_IN_SET(state,'${query.state.join(',')}')
-      AND b.name = '${query.name}'
+      AND (a.reviewer = '${query.uid}'
+      OR a.leader = '${query.uid}'
+      OR a.worker like '${query.uid},%'
+      OR a.worker like '%,${query.uid},%'
+      OR a.worker like '%,${query.uid}')
       LIMIT ${Number(query.pageSize)}
       OFFSET ${(query.current - 1) * query.pageSize}`;
     }
