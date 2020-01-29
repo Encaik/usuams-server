@@ -12,7 +12,7 @@ class UserService extends Service {
       return { code: 1002, msg: '请输入密码' };
     }
     const sql = `
-    SELECT user_table.id as uid,user_table.password,user_type.id
+    SELECT user_table.department as depa,user_table.id as uid,user_table.password,user_type.id
     FROM user_table
     JOIN user_type
     ON user_table.user_type = user_type.id
@@ -35,6 +35,7 @@ class UserService extends Service {
       msg: '登陆成功',
       uid: result[0].uid,
       type: result[0].id,
+      depa: result[0].depa,
       Authorization: token,
     };
   }

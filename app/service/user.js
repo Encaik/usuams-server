@@ -15,12 +15,29 @@ class UserService extends Service {
     if (!query.type || query.type.length === 0) {
       query.type = [ '1', '2', '3', '4', '5' ];
     }
-    const result = await this.app.mysql.select('user_table', {
-      where: { user_type: query.type },
-      limit: Number(query.pageSize), // 返回数据量
-      offset: (query.current - 1) * query.pageSize, // 数据偏移量
-    });
-    const totalCount = await this.app.mysql.count('user_table', { user_type: query.type });
+    let result = [];
+    let totalCount = 0;
+    if (!query.depa) {
+      result = await this.app.mysql.select('user_table', {
+        where: { user_type: query.type },
+        limit: Number(query.pageSize), // 返回数据量
+        offset: (query.current - 1) * query.pageSize, // 数据偏移量
+      });
+      totalCount = await this.app.mysql.count('user_table', {
+        user_type: query.type,
+      });
+    } else {
+      result = await this.app.mysql.select('user_table', {
+        where: { user_type: query.type, department: query.depa },
+        limit: Number(query.pageSize), // 返回数据量
+        offset: (query.current - 1) * query.pageSize, // 数据偏移量
+      });
+      totalCount = await this.app.mysql.count('user_table', {
+        user_type: query.type,
+        department: query.depa,
+      });
+    }
+
     return {
       code: 0,
       msg: 'success',
