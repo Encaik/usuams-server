@@ -15,20 +15,31 @@ class AffairService extends Service {
     if (!query.state || query.state.length === 0) {
       query.state = [ '待审核', '已创建', '已开始', '已结束' ];
     }
+    let sql = '';
+    if (!query.uid) {
+      sql = `SELECT a.*,b.name AS reviewer_name,c.name AS leader_name
+      FROM affair_table AS a
+      INNER JOIN user_table b ON b.id = a.reviewer
+      INNER JOIN user_table c ON c.id = a.leader
+      WHERE FIND_IN_SET(state,'${query.state.join(',')}')
+      LIMIT ${Number(query.pageSize)}
+      OFFSET ${(query.current - 1) * query.pageSize}`;
+    } else {
+      sql = `SELECT a.*,b.name AS reviewer_name,c.name AS leader_name
+      FROM affair_table AS a
+      INNER JOIN user_table b ON b.id = a.reviewer
+      INNER JOIN user_table c ON c.id = a.leader
+      WHERE FIND_IN_SET(state,'${query.state.join(',')}')
+      AND b.name = '${query.name}'
+      LIMIT ${Number(query.pageSize)}
+      OFFSET ${(query.current - 1) * query.pageSize}`;
+    }
     // const result = await this.app.mysql.select('affair_table', {
     //   where: { state: query.state },
     //   limit: Number(query.pageSize), // 返回数据量
     //   offset: (query.current - 1) * query.pageSize, // 数据偏移量
     // });
     // const totalCount = await this.app.mysql.count('affair_table', { state: query.state });
-    const sql = `SELECT a.*,b.name AS reviewer_name,c.name AS leader_name
-    FROM affair_table AS a
-    INNER JOIN user_table b ON b.id = a.reviewer
-    INNER JOIN user_table c ON c.id = a.leader
-    WHERE FIND_IN_SET(state,'${query.state.join(',')}')
-    LIMIT ${Number(query.pageSize)}
-    OFFSET ${(query.current - 1) * query.pageSize}`;
-    console.log(sql);
     const result = await this.app.mysql.query(sql);
     const totalCount = result.length;
     return {
