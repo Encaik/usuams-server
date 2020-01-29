@@ -16,7 +16,7 @@ class AffairService extends Service {
       query.state = [ '待审核', '已创建', '已开始', '已结束' ];
     }
     let sql = '';
-    if (!query.uid) {
+    if (!query.uid || parseInt(query.uid) === 2) {
       sql = `SELECT a.*,b.name AS reviewer_name,c.name AS leader_name
       FROM affair_table AS a
       INNER JOIN user_table b ON b.id = a.reviewer
@@ -29,12 +29,12 @@ class AffairService extends Service {
       FROM affair_table AS a
       INNER JOIN user_table b ON b.id = a.reviewer
       INNER JOIN user_table c ON c.id = a.leader
+      INNER JOIN worker_table d ON d.affair_id = a.id
       WHERE FIND_IN_SET(state,'${query.state.join(',')}')
-      AND (a.reviewer = '${query.uid}'
+      AND a.reviewer = '${query.uid}'
       OR a.leader = '${query.uid}'
-      OR a.worker like '${query.uid},%'
-      OR a.worker like '%,${query.uid},%'
-      OR a.worker like '%,${query.uid}')
+      OR d.worker_id = '${query.uid}'
+      GROUP BY a.id
       LIMIT ${Number(query.pageSize)}
       OFFSET ${(query.current - 1) * query.pageSize}`;
     }
