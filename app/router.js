@@ -7,6 +7,8 @@ module.exports = app => {
   const { router, controller, jwt } = app;
   // 登录功能
   router.post('/login', controller.login.index);
+  // 注册功能
+  router.post('/sign', controller.guest.create);
   // 修改用户名及密码
   // 退出功能
   router.post('/exit', jwt, controller.login.exit);

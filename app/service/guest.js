@@ -50,7 +50,7 @@ class GuestService extends Service {
         major: body.major,
         grade: body.grade,
         class: body.class,
-        user_type: body.user_type,
+        user_type: 6,
         create_date: Math.round(new Date() / 1000),
         depa1: body.depa1,
         depa2: body.depa2,
