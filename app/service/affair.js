@@ -16,8 +16,16 @@ class AffairService extends Service {
       query.state = [ '待审核', '已创建', '已开始', '已结束' ];
     }
     let sql = '';
+    let totalSql = '';
     if (!query.uid || parseInt(query.uid) === 2) {
       sql = `SELECT a.*,b.name AS reviewer_name,c.name AS leader_name
+      FROM affair_table AS a
+      INNER JOIN user_table b ON b.id = a.reviewer
+      INNER JOIN user_table c ON c.id = a.leader
+      WHERE FIND_IN_SET(state,'${query.state.join(',')}')
+      LIMIT ${Number(query.pageSize)}
+      OFFSET ${(query.current - 1) * query.pageSize}`;
+      totalSql = `SELECT a.*,b.name AS reviewer_name,c.name AS leader_name
       FROM affair_table AS a
       INNER JOIN user_table b ON b.id = a.reviewer
       INNER JOIN user_table c ON c.id = a.leader
@@ -37,6 +45,18 @@ class AffairService extends Service {
       GROUP BY a.id
       LIMIT ${Number(query.pageSize)}
       OFFSET ${(query.current - 1) * query.pageSize}`;
+      totalSql = `SELECT a.*,b.name AS reviewer_name,c.name AS leader_name
+      FROM affair_table AS a
+      INNER JOIN user_table b ON b.id = a.reviewer
+      INNER JOIN user_table c ON c.id = a.leader
+      INNER JOIN worker_table d ON d.affair_id = a.id
+      WHERE FIND_IN_SET(state,'${query.state.join(',')}')
+      AND a.reviewer = '${query.uid}'
+      OR a.leader = '${query.uid}'
+      OR d.worker_id = '${query.uid}'
+      GROUP BY a.id
+      LIMIT ${Number(query.pageSize)}
+      OFFSET ${(query.current - 1) * query.pageSize}`;
     }
     // const result = await this.app.mysql.select('affair_table', {
     //   where: { state: query.state },
@@ -45,7 +65,8 @@ class AffairService extends Service {
     // });
     // const totalCount = await this.app.mysql.count('affair_table', { state: query.state });
     const result = await this.app.mysql.query(sql);
-    const totalCount = result.length;
+    const totalResult = await this.app.mysql.query(totalSql);
+    const totalCount = totalResult.length;
     return {
       code: 0,
       msg: 'success',
