@@ -21,7 +21,7 @@ class UserService extends Service {
 
     // token签名 有效期为1小时
     console.log(result);
-    if (!result || body.password !== result[0].password) {
+    if (!result || result.length === 0 || body.password !== result[0].password) {
       return { code: 1000, msg: '用户名或密码不正确' };
     }
     const token = await this.app.jwt.sign(

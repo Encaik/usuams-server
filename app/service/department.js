@@ -2,7 +2,7 @@
 
 const Service = require('egg').Service;
 
-class GuestService extends Service {
+class DepartmentService extends Service {
 
   // 查询全部数据
   async index(query) {
@@ -12,32 +12,11 @@ class GuestService extends Service {
     if (!query.current) {
       return { code: 2002, msg: '分页数据页数缺失' };
     }
-    let result = '';
-    let totalCount = 0;
-    if (!query.depa) {
-      result = await this.app.mysql.select('guest_table', {
-        where: { user_type: '6' },
-        limit: Number(query.pageSize), // 返回数据量
-        offset: (query.current - 1) * query.pageSize, // 数据偏移量
-      });
-      totalCount = await this.app.mysql.count('guest_table', {
-        user_type: '6',
-      });
-    } else {
-      console.log(query.depa);
-      result = await this.app.mysql.query(`SELECT * FROM guest_table
-      WHERE(depa1 = '${query.depa}' AND status = '1')
-      OR(depa2 = '${query.depa}' AND status = '2')
-      OR(depa3 = '${query.depa}' AND status = '3')
-      LIMIT ${Number(query.pageSize)}
-      OFFSET ${(query.current - 1) * query.pageSize}`);
-      const totalSql = `SELECT * FROM guest_table
-      WHERE(depa1 = '${query.depa}' AND status = 1)
-      OR(depa2 = '${query.depa}' AND status = 2)
-      OR(depa3 = '${query.depa}' AND status = 3)`;
-      const totalResult = await this.app.mysql.query(totalSql);
-      totalCount = totalResult.length;
-    }
+    const result = await this.app.mysql.select('department_table', {
+      limit: Number(query.pageSize), // 返回数据量
+      offset: (query.current - 1) * query.pageSize, // 数据偏移量
+    });
+    const totalCount = await this.app.mysql.count('department_table');
     return {
       code: 0,
       msg: 'success',
@@ -50,7 +29,7 @@ class GuestService extends Service {
   // 按id查询数据
   async show(params) {
     const result = await this.app.mysql.select(
-      'guest_table',
+      'department_table',
       {
         id: params.id,
       }
@@ -61,7 +40,7 @@ class GuestService extends Service {
   // 新增数据
   async create(body) {
     const result = await this.app.mysql.insert(
-      'guest_table',
+      'department_table',
       {
         name: body.name,
         number: body.number,
@@ -120,7 +99,7 @@ class GuestService extends Service {
       data.department = body.department;
     }
     const result = await this.app.mysql.update(
-      'guest_table',
+      'department_table',
       data,
       {
         where: {
@@ -134,7 +113,7 @@ class GuestService extends Service {
   // 按id删除数据
   async destroy(params) {
     const result = await this.app.mysql.delete(
-      'guest_table',
+      'department_table',
       {
         id: params.id,
       }
@@ -144,4 +123,4 @@ class GuestService extends Service {
 
 }
 
-module.exports = GuestService;
+module.exports = DepartmentService;

@@ -20,5 +20,7 @@ module.exports = app => {
   router.resources('guest', '/guest', jwt, controller.guest);
   // 事务 crud api
   router.resources('affair', '/affair', jwt, controller.affair);
+  // 部门 crud api
+  router.resources('department', '/department', jwt, controller.department);
   // 例会记录 crud api
 };
