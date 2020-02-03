@@ -23,4 +23,5 @@ module.exports = app => {
   // 部门 crud api
   router.resources('department', '/department', jwt, controller.department);
   // 例会记录 crud api
+  router.resources('meeting', '/meeting', jwt, controller.meeting);
 };
