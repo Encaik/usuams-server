@@ -43,17 +43,7 @@ class DepartmentService extends Service {
       'department_table',
       {
         name: body.name,
-        number: body.number,
-        sex: body.sex,
-        collage: body.collage,
-        major: body.major,
-        grade: body.grade,
-        class: body.class,
-        user_type: 6,
-        create_date: Math.round(new Date() / 1000),
-        depa1: body.depa1,
-        depa2: body.depa2,
-        depa3: body.depa3,
+        people: body.people,
       }
     );
     return {
@@ -68,35 +58,8 @@ class DepartmentService extends Service {
     if (body.name) {
       data.name = body.name;
     }
-    if (body.number) {
-      data.number = body.number;
-    }
-    if (body.username) {
-      data.username = body.username;
-    }
-    if (body.password) {
-      data.password = body.password;
-    }
-    if (body.sex) {
-      data.sex = body.sex;
-    }
-    if (body.collage) {
-      data.collage = body.collage;
-    }
-    if (body.major) {
-      data.major = body.major;
-    }
-    if (body.grade) {
-      data.grade = body.grade;
-    }
-    if (body.class) {
-      data.class = body.class;
-    }
-    if (body.user_type) {
-      data.user_type = body.user_type;
-    }
-    if (body.department) {
-      data.department = body.department;
+    if (body.people) {
+      data.people = body.people;
     }
     const result = await this.app.mysql.update(
       'department_table',
