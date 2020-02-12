@@ -93,16 +93,21 @@ class AffairService extends Service {
       'affair_table',
       {
         name: body.name,
-        create_date: body.create_date,
+        create_date: Math.round(new Date() / 1000),
         start_date: body.start_date,
         end_date: body.end_date,
         leader: body.leader,
+        reviewer: body.reviewer,
         level: body.level,
         state: body.state,
         context: body.context,
       }
     );
-    return result;
+    return {
+      code: 0,
+      msg: 'success',
+      data: result,
+    };
   }
 
   async update(params, body) {

@@ -37,11 +37,7 @@ class AffairController extends Controller {
   async create() {
     const result = await this.ctx.service.affair.create(this.ctx.request.body);
     console.log(result);
-    this.ctx.body = {
-      code: 0,
-      msg: 'success',
-      data: result,
-    };
+    this.ctx.body = result;
   }
 
   async update() {
