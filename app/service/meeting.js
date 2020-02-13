@@ -43,16 +43,19 @@ class MeetingService extends Service {
       'meeting_table',
       {
         name: body.name,
-        create_date: body.create_date,
-        start_date: body.start_date,
-        end_date: body.end_date,
-        leader: body.leader,
-        level: body.level,
-        state: body.state,
+        meeting_date: body.meeting_date,
+        upload_date: body.upload_date,
+        department: body.department,
+        participant: body.participant,
+        recorder: body.recorder,
         context: body.context,
       }
     );
-    return result;
+    return {
+      code: 0,
+      msg: 'success',
+      data: result,
+    };
   }
 
   async update(params, body) {
@@ -101,7 +104,11 @@ class MeetingService extends Service {
         id: params.id,
       }
     );
-    return result;
+    return {
+      code: 0,
+      msg: 'success',
+      data: result,
+    };
   }
 
 }

@@ -54,11 +54,7 @@ class AffairController extends Controller {
   async destroy() {
     const result = await this.ctx.service.affair.destroy(this.ctx.params);
     console.log(result);
-    this.ctx.body = {
-      code: 0,
-      msg: 'success',
-      data: result,
-    };
+    this.ctx.body = result;
   }
 }
 

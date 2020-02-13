@@ -127,6 +127,9 @@ class AffairService extends Service {
     if (body.leader) {
       data.leader = body.leader;
     }
+    if (body.reviewer) {
+      data.reviewer = body.reviewer;
+    }
     if (body.level) {
       data.level = body.level;
     }
@@ -156,7 +159,11 @@ class AffairService extends Service {
         id: params.id,
       }
     );
-    return result;
+    return {
+      code: 0,
+      msg: 'success',
+      data: result,
+    };
   }
 
 }

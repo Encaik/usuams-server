@@ -37,11 +37,7 @@ class MeetingController extends Controller {
   async create() {
     const result = await this.ctx.service.meeting.create(this.ctx.request.body);
     console.log(result);
-    this.ctx.body = {
-      code: 0,
-      msg: 'success',
-      data: result,
-    };
+    this.ctx.body = result;
   }
 
   async update() {
@@ -58,11 +54,7 @@ class MeetingController extends Controller {
   async destroy() {
     const result = await this.ctx.service.meeting.destroy(this.ctx.params);
     console.log(result);
-    this.ctx.body = {
-      code: 0,
-      msg: 'success',
-      data: result,
-    };
+    this.ctx.body = result;
   }
 }
 
