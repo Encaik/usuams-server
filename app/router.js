@@ -12,8 +12,8 @@ module.exports = app => {
   // 修改用户名及密码
   // 退出功能
   router.post('/exit', jwt, controller.login.exit);
-  // 首页 crud api
-  router.resources('home', '/home', jwt, controller.home);
+  // 首页统计
+  router.get('/home', jwt, controller.home.index);
   // 用户 crud api
   router.resources('user', '/user', jwt, controller.user);
   // 游客 crud api
