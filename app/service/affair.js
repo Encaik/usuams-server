@@ -15,6 +15,14 @@ class AffairService extends Service {
     if (!query.state || query.state.length === 0) {
       query.state = [ '待审核', '已创建', '已开始', '已结束' ];
     }
+    await this.app.mysql.update('time_table',
+      { timestamp: Math.round(new Date() / 1000) },
+      {
+        where: {
+          id: '1',
+        },
+      }
+    );
     let sql = '';
     let totalSql = '';
     if (!query.uid || parseInt(query.uid) === 2) {

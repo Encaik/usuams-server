@@ -12,6 +12,14 @@ class GuestService extends Service {
     if (!query.current) {
       return { code: 2002, msg: '分页数据页数缺失' };
     }
+    await this.app.mysql.update('time_table',
+      { timestamp: Math.round(new Date() / 1000) },
+      {
+        where: {
+          id: '1',
+        },
+      }
+    );
     let result = '';
     let totalCount = 0;
     if (!query.depa) {

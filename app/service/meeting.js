@@ -12,6 +12,14 @@ class MeetingService extends Service {
     if (!query.current) {
       return { code: 2002, msg: '分页数据页数缺失' };
     }
+    await this.app.mysql.update('time_table',
+      { timestamp: Math.round(new Date() / 1000) },
+      {
+        where: {
+          id: '1',
+        },
+      }
+    );
     const result = await this.app.mysql.select('meeting_table', {
       limit: Number(query.pageSize), // 返回数据量
       offset: (query.current - 1) * query.pageSize, // 数据偏移量

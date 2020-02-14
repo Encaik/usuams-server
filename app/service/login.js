@@ -11,6 +11,14 @@ class UserService extends Service {
     if (!body.password) {
       return { code: 1002, msg: '请输入密码' };
     }
+    await this.app.mysql.update('time_table',
+      { timestamp: Math.round(new Date() / 1000) },
+      {
+        where: {
+          id: '1',
+        },
+      }
+    );
     const sql = `
     SELECT user_table.department as depa,user_table.id as uid,user_table.password,user_type.id
     FROM user_table

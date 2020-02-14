@@ -15,6 +15,14 @@ class UserService extends Service {
     if (!query.type || query.type.length === 0) {
       query.type = [ '1', '2', '3', '4', '5' ];
     }
+    await this.app.mysql.update('time_table',
+      { timestamp: Math.round(new Date() / 1000) },
+      {
+        where: {
+          id: '1',
+        },
+      }
+    );
     let result = [];
     let totalCount = 0;
     if (!query.depa) {
