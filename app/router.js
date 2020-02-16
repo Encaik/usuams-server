@@ -24,4 +24,11 @@ module.exports = app => {
   router.resources('department', '/department', jwt, controller.department);
   // 例会记录 crud api
   router.resources('meeting', '/meeting', jwt, controller.meeting);
+  // 留任
+  router.put('/stay', jwt, controller.reelection.stay);
+  // 卸任
+  router.put('/leave/:id', jwt, controller.reelection.leave);
+  // 同意入会
+  // 拒绝入会
+  // 通过审核
 };
