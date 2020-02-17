@@ -1,6 +1,7 @@
 'use strict';
 
 const Service = require('egg').Service;
+const md5 = require('js-md5');
 
 class ReelectionService extends Service {
   async stay(params) {
@@ -33,6 +34,27 @@ class ReelectionService extends Service {
   }
 
   async agree(params, body) {
+    if (!body.depa) {
+      return { code: 3001, msg: '您无权进行此操作！' };
+    }
+    const people = await this.app.mysql.count(
+      'user_table',
+      {
+        user_type: 5,
+        department: body.depa,
+      }
+    );
+    const depaInfo = await this.app.mysql.select(
+      'department_table',
+      {
+        where: {
+          name: body.depa,
+        },
+      }
+    );
+    if (people >= depaInfo[0].people) {
+      return { code: 3002, msg: '部门干事人数已满！' };
+    }
     const info = await this.app.mysql.select(
       'guest_table',
       {
@@ -47,7 +69,7 @@ class ReelectionService extends Service {
         name: info[0].name,
         number: info[0].number,
         username: info[0].number,
-        password: 123456,
+        password: md5('123456'),
         sex: info[0].sex,
         collage: info[0].collage,
         major: info[0].major,

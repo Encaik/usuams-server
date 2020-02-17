@@ -1,6 +1,7 @@
 'use strict';
 
 const Service = require('egg').Service;
+const md5 = require('js-md5');
 
 class UserService extends Service {
 
@@ -74,7 +75,7 @@ class UserService extends Service {
         name: body.name,
         number: body.number,
         username: body.number,
-        password: 123456,
+        password: md5('123456'),
         sex: body.sex,
         collage: body.collage,
         major: body.major,
