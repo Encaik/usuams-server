@@ -12,6 +12,16 @@ class ReelectionController extends Controller {
     const result = await this.ctx.service.reelection.leave(this.ctx.params);
     this.ctx.body = result;
   }
+
+  async agree() {
+    const result = await this.ctx.service.reelection.agree(this.ctx.params, this.ctx.request.body);
+    this.ctx.body = result;
+  }
+
+  async refuse() {
+    const result = await this.ctx.service.reelection.refuse(this.ctx.params);
+    this.ctx.body = result;
+  }
 }
 
 module.exports = ReelectionController;

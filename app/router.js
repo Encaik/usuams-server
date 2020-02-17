@@ -25,10 +25,12 @@ module.exports = app => {
   // 例会记录 crud api
   router.resources('meeting', '/meeting', jwt, controller.meeting);
   // 留任
-  router.put('/stay', jwt, controller.reelection.stay);
+  router.put('/stay/:id', jwt, controller.reelection.stay);
   // 卸任
   router.put('/leave/:id', jwt, controller.reelection.leave);
   // 同意入会
+  router.put('/agree/:id', jwt, controller.reelection.agree);
   // 拒绝入会
+  router.put('/refuse/:id', jwt, controller.reelection.refuse);
   // 通过审核
 };
