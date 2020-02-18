@@ -33,4 +33,5 @@ module.exports = app => {
   // 拒绝入会
   router.put('/refuse/:id', jwt, controller.reelection.refuse);
   // 通过审核
+  router.put('/review/:id', jwt, controller.review.review);
 };
